@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/WhareWR/Manawa-Radar/blob/main/packages/protocol/events.schema.json",
+  "title": "Manawa-Radar Telemetry Envelope v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "deviceId", "timestamp", "mode", "state"],
+  "properties": {
+    "schemaVersion": {"const": "0.1"},
+    "deviceId": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "mode": {"enum": ["SIMULATION", "HARDWARE"]},
+    "state": {"enum": ["INITIALIZING", "VALID", "MOTION_ARTIFACT", "NO_TARGET", "SENSOR_FAULT", "LINK_FAULT"]},
+    "heartRateBpm": {"type": ["number", "null"], "minimum": 0, "maximum": 300},
+    "respiratoryRatePerMin": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+    "signalQuality": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "firmwareVersion": {"type": ["string", "null"]},
+    "sequence": {"type": "integer", "minimum": 0}
+  }
+}
