@@ -1,43 +1,55 @@
 # Manawa-Radar
 
-**Affordable, open-source, contactless cardiac and respiratory monitoring research.**
+**Affordable, open-source, contactless heart-rate and respiratory-rate monitoring research.**
 
-Manawa-Radar aims to develop a reproducible, standalone bedside monitoring product with a 60 GHz radar sensor, local hub, household sirens, and caregiver mobile/web interfaces. The project prioritizes accessible hardware, privacy, offline operation, and a rigorous pathway to medical-device quality.
+[Dashboard](apps/dashboard/README.md) · [Architecture](docs/ARCHITECTURE.md) · [Requirements](docs/PRODUCT_REQUIREMENTS.md) · [Roadmap](docs/ROADMAP.md) · [Questions](QUESTIONS.md) · [Candidate BOM](hardware/bom/candidate-bom.csv) · [File formats](docs/FILE_ARCHITECTURE.md)
 
-> **Safety status: RESEARCH / PRECLINICAL.** No implementation in this repository is a certified medical device, validated cardiac-arrest detector, or replacement for ECG monitoring, emergency services, or prescribed medical equipment. Loss of radar heartbeat tracking does not establish cardiac arrest. No emergency alarm claims are authorized without clinical validation and applicable regulatory clearance.
+> **RESEARCH / PRECLINICAL — NOT A MEDICAL DEVICE.** The current dashboard displays **synthetic data only**. It is not connected to a radar, cannot detect cardiac arrest, and must not be used for patient care or emergency monitoring.
 
-## Product components
+## Vision
 
-- **Bedside sensor:** FMCW radar, local DSP, signal quality, secure communications, device supervision.
-- **Home hub:** offline-first event routing, technical-fault reporting, siren supervision, optional cellular failover.
-- **Household sirens:** independent power, test/acknowledgment, supervised wireless communications.
-- **Mobile app and web UI:** live readings, measurement availability, history, technical faults, caregiver setup, test notifications.
-- **Open hardware:** KiCad design sources, enclosure CAD, assembly and calibration guides, BOM and manufacturing tests.
-- **Validation:** reproducible ECG/respiration comparisons, motion/sleep-position testing, requirements traceability and risk management.
+A standalone packaged bedside 60 GHz radar sensor, local hub, supervised battery-backed household sirens and caregiver interfaces, designed to minimize manufacturing cost and cloud dependencies. The long-term aim is medical-grade engineering supported by independent clinical and regulatory evidence—not an assertion of present certification.
 
-## First milestones
+## What's implemented
 
-1. Define intended use, exclusions, measurable requirements and hazard analysis.
-2. Reproduce radar acquisition and vital-sign estimates using evaluation hardware; publish reference comparisons and limitations.
-3. Prototype a standalone processing board and local communications.
-4. Build the shared UI and simulator, with clear **simulated** labels.
-5. Verify end-to-end *technical-fault* notifications, alarm-test functionality and power/network failure behavior.
-6. Undertake prospective clinical studies and regulatory review before claiming medical emergency detection.
+- Runnable responsive **Svelte + TypeScript** research dashboard with simulated HR/RR, quality and fault states, synthetic trends and alarm-test log.
+- Versioned JSON Schema for telemetry events.
+- Vendor-neutral hardware deliverable conventions, CAD provenance register and provisional costed BOM.
+- Initial product requirements, system architecture, roadmap, contribution/security guidance and a dedicated questions/blockers file.
 
-## Repository map
+## Run the UI
 
-- `docs/` — architecture and product requirements
-- `hardware/` — future KiCad, enclosure and BOM source files
-- `firmware/` — future sensor, hub and siren firmware
-- `algorithms/` — reproducible DSP research
-- `apps/` — Flutter mobile and local web interface
-- `validation/` — verification and clinical study plans
-- `regulatory/` — intended use, hazards, traceability and quality documentation
+Requires Node.js 20.19+ or 22.12+.
 
-## Contributing
+```bash
+cd apps/dashboard
+npm install
+npm run dev
+```
 
-Contributions are welcome, particularly from radar/DSP engineers, clinicians, accessibility designers and medical-device quality specialists. Do not upload patient-identifiable recordings or confidential medical data.
+The dashboard is local-only and currently uses simulated data. Build and static checks: `npm run check && npm run build`. **These commands have not yet been verified in CI.**
+
+## Planned components
+
+- **Sensor:** raw-IQ-capable FMCW radar, embedded C/C++ DSP, measurement quality, supervision.
+- **Hub:** local API/event storage, independent alarm supervision, optional cellular SKU.
+- **Sirens:** supervised wireless, backup power, test/acknowledgement.
+- **Interfaces:** Svelte dashboard and future Capacitor mobile shell, subject to native notification reliability testing.
+- **Open hardware:** editable CAD in any supported tool; Gerber X2/Excellon, BOM/placement CSV, STEP, STL/3MF, DXF and PDF outputs as appropriate.
+- **Verification:** ECG/respiration reference comparison, RF/radome testing, power/network failure testing and clinical/regulatory assessment.
+
+## Affordability
+
+Initial **unverified** engineering target: CAD 140–250 manufacturing cost per kit at volume; this is not a supplier quote and excludes some certification, support and distribution costs. See [candidate BOM](hardware/bom/candidate-bom.csv).
+
+## Design rules
+
+1. Local monitoring and fault indication must not rely on a phone app or cloud.
+2. Measurement loss is not evidence of a medical emergency.
+3. Never present stale data as current or simulated data as patient measurements.
+4. Document unanswered design decisions in [QUESTIONS.md](QUESTIONS.md), continue independent work.
+5. Keep original editable CAD sources and neutral fabrication outputs; verify third-party model licences.
 
 ## Licensing
 
-Licensing is **proposed, not yet finalized**: Apache-2.0 for software, CERN-OHL-S-2.0 for original hardware design files, and CC-BY-4.0 for documentation. Review third-party dependencies and obtain contributor agreement on licensing before copying code or publishing fabrication files. No licence grant is implied until licence texts are added.
+**Not yet finalized:** proposed Apache-2.0 (software), CERN-OHL-S-2.0 (hardware), CC-BY-4.0 (documentation). Do not assume these are already granted; licence files and contributor agreement remain open questions.
