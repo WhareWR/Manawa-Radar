@@ -1,0 +1,11 @@
+subsystem,item,quantity_per_kit,candidate,estimated_unit_cad_low,estimated_unit_cad_high,status,selection_gate
+sensor,60GHz radar RF subsystem,1,Infineon BGT60TR13C class or qualified equivalent,18,40,UNVERIFIED,raw IQ access and RF characterization
+sensor,processing MCU + memory,1,STM32H7 or i.MX RT class after profiling,12,28,UNVERIFIED,DSP benchmark
+sensor,certified Wi-Fi/BLE module,1,ESP32-C6 module or equivalent,5,12,UNVERIFIED,regional RF compliance
+sensor,PCB power supervision and misc,1,custom board passives PMIC watchdog,10,20,UNVERIFIED,schematic review
+sensor,enclosure and AC adapter,1,radar-qualified polymer + certified supply,12,25,UNVERIFIED,radome and electrical safety
+hub,processor and storage,1,low-cost embedded Linux SoM or MCU,15,35,UNVERIFIED,API and reliability benchmark
+hub,radio and power management,1,supervised sub-GHz radio + backup battery,18,35,UNVERIFIED,range and runtime
+hub,optional LTE modem,0,Cat-1 bis certified modem,18,40,OPTIONAL,network coverage and data plan
+siren,wireless siren assembly,2,sub-GHz radio sounder LED power enclosure,15,28,UNVERIFIED,acoustic and supervision testing
+kit,assembly testing mounting packaging,1,manufacturing allowance,25,55,UNVERIFIED,quote at volume
