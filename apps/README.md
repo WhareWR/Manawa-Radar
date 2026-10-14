@@ -1,12 +1,17 @@
-# Applications
+# Applications — proposed lightweight stack
 
-Planned: one shared Flutter design system targeting Android, iOS and a locally hosted web dashboard.
+**Web dashboard:** Svelte + TypeScript, statically built and served by the local hub.
 
-## UX principles
-- Accessible typography, large readings, clear signal quality and timestamps.
-- Explicit differentiation between **measurement valid**, **measurement unavailable**, **technical fault**, **simulated test**, and any future **clinically validated alarm**.
-- Family/caregiver permissions, audit trail, notification acknowledgement and offline visibility.
-- Demo data must be clearly marked; no demo control may trigger a real emergency dispatch.
-- No mandatory cloud account for local operation.
+**Mobile:** Capacitor + Svelte + TypeScript with explicit native integration tests for Android/iOS notifications and background operation.
 
-Implementation will begin after the API/event schema and requirements are defined.
+**Shared:** TypeScript event schemas, API client, accessible components, simulation fixtures.
+
+## Principles
+- No Flutter/Dart dependency.
+- No mandatory Google cloud, hosted account or remote backend for local monitoring.
+- Embedded safety monitoring and siren activation must never depend on the UI or phone app.
+- Distinguish VALID, UNAVAILABLE, TECHNICAL_FAULT, SIMULATED_TEST and any future clinically validated alarm.
+- Mobile notifications are supplementary and subject to OS/network delivery limitations.
+- Verify app lifecycle, accessibility, battery behavior, offline operation and real-device alarm workflows before release.
+
+This is a technology selection, not an implemented application.
