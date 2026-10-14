@@ -2,40 +2,33 @@
 
 ```text
 [60 GHz FMCW bedside sensor]
-  | radar frames -> range/phase DSP -> HR/RR estimates + measurement quality
+  | C/C++ radar acquisition and DSP; measurement-quality states
   | independent processor supervision and local fault indication
   v
-[Dedicated home hub] <----> [Battery-backed, supervised household sirens]
-  | local history / fault routing / event log
-  +----> [Local web dashboard]
-  +----> [Optional LTE/internet gateway] ---> [Caregiver Flutter app]
+[Dedicated local hub: C++/Rust service + SQLite + MQTT]
+  | authenticated local API / event routing / technical-fault log
+  +----> [Battery-backed supervised wireless sirens]
+  +----> [Svelte + TypeScript dashboard, served locally]
+  +----> [Optional LTE/internet] ---> [Svelte + Capacitor caregiver app]
 ```
 
-## Design priorities
+## Technology selection
+- Embedded firmware and production DSP: C/C++.
+- Research/validation algorithms: Python + NumPy/SciPy.
+- Hub runtime: evaluate C++ vs Rust after resource profiling.
+- Web dashboard: Svelte + TypeScript.
+- Mobile: Svelte + Capacitor; native notification integrations require physical-device verification.
+- Local persistence: SQLite.
+- Hardware and mechanical sources: KiCad and FreeCAD.
+- No Flutter dependency or mandatory cloud backend.
 
-1. No reliance on a user's existing computer or cloud service for local operation.
-2. Minimize parts count and recurring cost without weakening validated safety requirements.
-3. Measurement state must distinguish VALID, MOTION_ARTIFACT, NO_TARGET, SENSOR_FAULT, LINK_FAULT, and INITIALIZING.
-4. A fault or missing measurement is **not** a cardiac event.
-5. Use authenticated device identity, signed firmware, encrypted links, and local-first storage.
-6. Record timestamps, device version, algorithm version, signal quality, and alert delivery/acknowledgement status.
-7. Alarm test functions must be clearly distinguishable from medical alarms.
-8. Formal emergency thresholds, alarm latency, performance claims, and fail-safe behavior remain undefined until risk assessment and clinical validation.
+## Safety invariants
+1. A mobile app, web dashboard, cloud service or household Wi-Fi must not be a single point of failure for local technical-fault indication.
+2. Distinguish VALID, MOTION_ARTIFACT, NO_TARGET, SENSOR_FAULT, LINK_FAULT and INITIALIZING.
+3. Missing heartbeat tracking is **not** evidence of cardiac arrest.
+4. Clinical emergency thresholds and alarm claims remain undefined until validation and regulatory authorization.
+5. Authenticate devices, sign firmware, supervise alarm units and log device/algorithm versions.
+6. Use independent hardware watchdog supervision and safe fault indication.
 
-## Initial hardware candidates
-
-- Infineon BGT60TR13C FMCW radar evaluation platform for acquisition feasibility.
-- MCU with measured headroom for DSP, memory, watchdog and communication workloads.
-- Independent hardware supervisor.
-- Dedicated hub with local radio and optional certified LTE module.
-- Battery-backed wireless sirens.
-
-No specific PCB, antenna stack-up, power budget or production BOM is approved yet.
-
-## UI
-
-A shared Flutter codebase may target Android, iOS and local web. Required screens: onboarding, monitoring, trends, technical faults, alert tests, caregivers, settings and device diagnostics. All synthetic readings must be labeled as simulated.
-
-## Engineering gate
-
-Do not select a custom radar PCB or advertise life-saving detection until representative sleep-position recordings and reference ECG/respiratory comparisons support feasibility.
+## Feasibility gate
+Validate radar measurements across sleeping positions and motion against ECG/respiratory references before finalizing custom RF PCB or clinical claims.
