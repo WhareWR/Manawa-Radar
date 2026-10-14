@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+# Flutter
+.dart_tool/
+build/
+.flutter-plugins*
+# Embedded / KiCad
+*.elf
+*.bin
+*.hex
+*-backups/
+# Private data and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+data/private/
+data/patient/
